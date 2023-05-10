@@ -1,0 +1,6 @@
+D:\Program Files\Tomcat Cluster\Tomcat\webapps\appname.war| # App WAR file
+D:\Program Files\Tomcat Cluster\Tomcat\webapps\appname| # App runtime folder
+D:\Program Files\Tomcat Cluster\Tomcat\conf| # Config files
+D:\Program Files\Tomcat Cluster\Tomcat\bin| # Binaries
+D:\Program Files\Tomcat Cluster\Tomcat\lib| # Libraries directory
+D:\CertStore| # Certificate Store
