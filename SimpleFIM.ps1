@@ -1,10 +1,10 @@
 Import-Module PSSQLite
 
+# Specify our Syslog collector host
+$SyslogTarget = "syslog.hostname.here"
+
 # Define the path to the directory tree to be hashed
 $FIMDirList = "C:\Windows\ScanList.log"
-
-# Specify our Syslog collector host
-$SyslogTarget = "hostname.fully.qualified"
 
 # Define the path to the database file
 $databasePath = "C:\FIM\Hashes.sqdb"
