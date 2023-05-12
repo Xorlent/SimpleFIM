@@ -16,12 +16,12 @@ Flexible PowerShell-based file integrity monitor with Syslog functionality
 ## Operation
 ### Two files control the execution of the FIM script
 #### CalcHashes.ps1
-This should be executed once per hour or so.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the schedule.  4 CPU cores are highly recommended for any machine running this process.  Real-world testing shows first-run performance of 70,000 files per hour with minimal CPU usage and subsequent run performance of 25,000 files per minute with high single-core CPU usage.  
+This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule.  4 CPU cores are highly recommended for any machine running this process.  Real-world testing shows first-run performance of 70,000 files per hour with minimal CPU usage and subsequent run performance of 25,000 files per minute with high single-core CPU usage.  
 #### CycleErrorLogs.cmd
-This should be executed once per day.  The script simply renames any error log to CalchashesErr.MMDDYY  
+This is configured to execute once per day by default.  The script simply renames any error log to CalchashesErr.MMDDYY  
 The .ps1 and .cmd file should both be placed in C:\Program Files\FIM.  Ensure only Administrators have access to modify the contents of this folder.  
 ### User Account
-Create a local user named, “fim” and assign it a strong password.  The user account should be configured with no password expiration, should not be added to any additional groups, and should have Remote Desktop Services Profile set to “Deny”.  
+A local user named, “fim” is created by the installer with a unique, strong password.  The user account should be configured with no password expiration, should not be added to any additional groups, and should have Remote Desktop Services Profile set to “Deny”.  
 ### Group Policy Settings
 Open mmc.exe and load the Local Group Policy.  The new “fim” user needs to be added to the, “Log on as a batch job” right.  This can be found in Computer Configuration->Windows Settings->Local Policies->User Rights Assignments  
 ### Files and Folders to monitor
