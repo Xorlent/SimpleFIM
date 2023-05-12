@@ -1,4 +1,4 @@
-﻿$accountToAdd = 'fim'
+$accountToAdd = 'fim'
 $addSwitch = '/add'
 $noPromptSwitch = '/Y'
 
@@ -10,7 +10,10 @@ Write-Host "Starting account setup." -ForegroundColor DarkCyan
 
 $users = $comp.psbase.children | select -expand name
 if ($users -like $accountToAdd) {
-    Write-Host “$username exists. Skipping account creation to configuring Log On As Batch rights.”
+    Write-Host “$username exists."
+    Write-Host "Please enter the password for this account.  This will be used to set up scheduled tasks: "
+    $NewPW = Read-Host -AsSecureString
+    Write-Host "Thank you.  Skipping account creation to configuring Log On As Batch rights.”
     }
 else # User does not exist
     {
