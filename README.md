@@ -4,7 +4,8 @@ Flexible PowerShell-based file integrity monitor with Syslog functionality
 ## Prerequisites
 1. A Windows machine with PowerShell
 2. PSSQLite, which can be added via the PowerShell Install-Module command (Install-Module PSSQLite) or via Github at https://github.com/RamblingCookieMonster/PSSQLite.  If you run the installer, it will attempt to install the module for you.
-3. A Syslog collector (can also be disabled, but HIGHLY recommended you implement this)
+3. A Syslog collector (Disabled by default, but HIGHLY recommended you specify a target host)
+4. Internet access needed if you want the installer to add the PSSQLite module.  Otherwise, you can install this module manually.
 
 ## Installation
 1. Copy all files to a single directory.
