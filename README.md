@@ -1,5 +1,5 @@
 # SimpleFIM
-Flexible PowerShell-based file integrity monitor with Syslog functionality.  When we began doing research and getting demos of various commercial products, they were either not configurable so you cannot monitor spoecific application folders, or they were overly complicated and expensive for such a simple task.
+Flexible PowerShell-based file integrity monitor with Syslog functionality.  When we began doing research and getting demos of various commercial products, they were either not configurable so you could not monitor spoecific application folders, or they were overly complicated and expensive for such a simple task.
 
 ## Prerequisites
 1. A Windows machine with PowerShell
