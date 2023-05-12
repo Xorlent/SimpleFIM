@@ -31,6 +31,7 @@ else # User does not exist
             Write-Host $Err
         }
         Write-Host "IMPORTANT This password will be needed to modify Simple FIM scheduled tasks: " $NewPW
+	# wmic UserAccount where Name="$accountToAdd" set PasswordExpires=False
         } #end if pwd.length
     }
 #  End Create FIM user account
