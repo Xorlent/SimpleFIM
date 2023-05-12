@@ -84,8 +84,10 @@ $msg = $pri + $header + $Tag + ": " + $Content
  if ($bytearray.count -gt 996) { $bytearray = $bytearray[0..995] }
 
 # Send the message... 
+if ($SyslogTarget -neq "syslog.hostname.here") {
  $UdpClient = New-Object System.Net.Sockets.UdpClient $SyslogTarget, 514
  $UdpClient.Send($bytearray, $bytearray.length) | out-null
+ }
 } # End SendTo-SysLog
 
 # End Syslog Function ---------------------
