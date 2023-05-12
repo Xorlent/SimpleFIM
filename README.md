@@ -26,8 +26,8 @@ Create a local user named, “fim” and assign it a strong password.  The user 
 Open mmc.exe and load the Local Group Policy.  The new “fim” user needs to be added to the, “Log on as a batch job” right.  This can be found in Computer Configuration->Windows Settings->Local Policies->User Rights Assignments  
 ### Files and Folders to monitor
 $FIMDirList = "C:\Windows\ScanList.log"
-This is the file containing the list of files and folders that should be monitored by the FIM script.  The FIM batch user needs read, list access to every location you specify.  Each file or folder to scan should be on its own line.  Use a “|” to terminate the entry (REQUIRED).  Single line comments following each entry are permitted.
-Example:
+This is the file containing the list of files and folders that should be monitored by the FIM script.  The FIM batch user needs read, list access to every location you specify.  Each file or folder to scan should be on its own line.  Use a “|” to terminate the entry (REQUIRED).  Single line comments following each entry are permitted.  
+Example:  
 D:\Program Files\Apache9.45\lib| # Libraries directory
 ### Runtime files
 It’s recommended that runtime files are configured for C:\FIM, with write permissions for Administrators and the FIM batch user account only.  
