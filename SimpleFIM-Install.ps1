@@ -20,19 +20,37 @@ else # User does not exist
         $NewPW = $Response.password
 
         if ($NewPW.Length -eq "15")
-        {
-        try
-        {
-            net user $accountToAdd $NewPW $addSwitch $noPromptSwitch
-        }
-        catch
-        {
-            $Err = $_.Exception.Message
-            Write-Host $Err
-        }
-        Write-Host "IMPORTANT This password will be needed to modify Simple FIM scheduled tasks: " $NewPW
-	# wmic UserAccount where Name="$accountToAdd" set PasswordExpires=False
+		{
+		try
+		{
+		    net user $accountToAdd $NewPW $addSwitch $noPromptSwitch
+		}
+		catch
+		{
+		    $Err = $_.Exception.Message
+		    throw $Err
+		}
         } #end if pwd.length
+	else
+	{
+		Write-Host "Unable to generate secure password from passwordwolf.com."
+		While ($NewPW.Length -ne "15")
+			{
+			Write-Host "Please generate and enter a 15 character password for the batch account to use: "
+			$NewPW = Read-Host -AsSecureString
+			}
+		try
+		{
+		    net user $accountToAdd $NewPW $addSwitch $noPromptSwitch
+		}
+		catch
+		{
+		    $Err = $_.Exception.Message
+		    throw $Err
+		}
+	}
+    Set-LocalUser -Name $accountToAdd -Description "SimpleFIM batch account."
+    Set-LocalUser -Name $accountToAdd -PasswordNeverExpires $true
     }
 #  End Create FIM user account
 
