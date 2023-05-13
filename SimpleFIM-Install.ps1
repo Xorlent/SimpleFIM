@@ -10,10 +10,10 @@ Write-Host "Starting account setup." -ForegroundColor DarkCyan
 
 $users = $comp.psbase.children | select -expand name
 if ($users -like $accountToAdd) {
-    Write-Host “$username exists."
+    Write-Host "$username exists."
     Write-Host "Please enter the password for this account.  This will be used to set up scheduled tasks: "
     $NewPW = Read-Host -AsSecureString
-    Write-Host "Thank you.  Skipping account setup to configuring Log On As Batch rights.”
+    Write-Host "Thank you.  Skipping account setup to configuring Log On As Batch rights."
     }
 else # User does not exist
     {
@@ -144,8 +144,8 @@ Write-Host "Starting Task Scheduler setup." -ForegroundColor DarkCyan
 
 #  Create scheduled tasks
 
-Register-ScheduledTask -xml (Get-Content '.\CycleErrLogs.xml' | Out-String) -TaskName "Simple FIM Cycle Error Log" -User $ntprincipal -Password $NewPW –Force
-Register-ScheduledTask -xml (Get-Content '.\RunSimpleFIM.xml' | Out-String) -TaskName "Simple FIM Run Process" -User $ntprincipal -Password $NewPW –Force
+Register-ScheduledTask -xml (Get-Content '.\CycleErrLogs.xml' | Out-String) -TaskName "Simple FIM Cycle Error Log" -User $ntprincipal -Password $NewPW -Force
+Register-ScheduledTask -xml (Get-Content '.\RunSimpleFIM.xml' | Out-String) -TaskName "Simple FIM Run Process" -User $ntprincipal -Password $NewPW -Force
 #  End Create scheduled tasks
 
 Write-Host "Task Scheduler setup completed." -ForegroundColor DarkCyan
@@ -159,8 +159,8 @@ Set-PSRepository -Name 'PSGallery' -InstallationPolicy Untrusted
 Write-Host "PowerShell module install completed." -ForegroundColor DarkCyan
 Write-Host "++++++++++++++++"
 
-Write-Host "Next steps:"
-Write-Host "  1. Edit C:\Windows\ScanList.log to include the desired monitored files and directories."
-Write-Host "  2. Edit C:\Program Files\FIM\SimpleFIM.ps1 and update $SyslogTarget and/or $SMTPServer, $FromAddress, $ToAddress."
-Write-Host "  3. For each monitored file or directory, ensure the ""fim"" batch account has read rights."
-Write-Host "  4. Enable the ""Simple FIM Cycle Error Log"" and ""Simple FIM Run Process"" scheduled tasks."
+Write-Host 'Next steps:'
+Write-Host '  1. Edit C:\Windows\ScanList.log to include the desired monitored files and directories.'
+Write-Host '  2. Edit C:\Program Files\FIM\SimpleFIM.ps1 and update $SyslogTarget and/or $SMTPServer, $FromAddress, $ToAddress.'
+Write-Host '  3. For each monitored file or directory, ensure the "fim" batch account has read rights.'
+Write-Host '  4. Enable the "Simple FIM Cycle Error Log" and "Simple FIM Run Process" scheduled tasks.'
