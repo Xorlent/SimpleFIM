@@ -1,11 +1,12 @@
 # SimpleFIM
-Flexible PowerShell-based file integrity monitor with Syslog functionality.  When we began doing research and getting demos of various commercial products, they were either not configurable so you could not monitor spoecific application folders, or they were overly complicated and expensive for such a simple task.
+Flexible PowerShell-based file integrity monitor with Syslog and SMTP alerting functionality.  When we began doing research and getting demos of various commercial products, they were either not configurable so you could not monitor spoecific application folders, or they were overly complicated and expensive for such a simple task.
 
 ## Prerequisites
 1. A Windows machine with PowerShell
 2. PSSQLite, which can be added via the PowerShell Install-Module command (Install-Module PSSQLite) or via Github at https://github.com/RamblingCookieMonster/PSSQLite.  If you run the installer, it will attempt to install the module for you.
-3. A Syslog collector (Disabled by default, but it is HIGHLY recommended you specify a target host)
-4. Internet access is needed if you want the installer to add the PSSQLite module.  Otherwise, you can install this module manually.
+3. (optional) A Syslog collector (Disabled by default, but it is recommended you specify one)
+4. (optional) A SMTP relay host (Disabled by default, but if you do not have a Syslog collector, use this)
+5. Internet access is needed if you want the installer to add the PSSQLite module.  Otherwise, you can install this module manually.
 
 ## Installation
 1. Copy all files to a single directory.
