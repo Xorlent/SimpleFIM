@@ -33,8 +33,6 @@ function SendTo-SysLog
 
     param ([String]$Facility, [String]$Severity, [String]$Content, [String]$Tag)
 
- $EmailSubject = 'SimpleFIM Alert (' + $Severity + ') FROM ' + $FIMHostname
-
  switch -regex ($Facility)
      {
      'kern' {$Facility = 0 * 8 ; break } 
@@ -98,10 +96,6 @@ function SendTo-SysLog
   $UdpClient = New-Object System.Net.Sockets.UdpClient $SyslogTarget, 514
   $UdpClient.Send($bytearray, $bytearray.length) | out-null
   }
- # Send the email message...
- if ($SMTPServer -ne "smtp.hostname.here") {
-  Send-MailMessage -From $FromAddress -To $ToAddress -Subject $EmailSubject -Body $msg -SmtpServer $SMTPServer -Port $SMTPPort
-  }
 } # End SendTo-SysLog
 
 # End Syslog Function ---------------------
@@ -118,6 +112,16 @@ Invoke-SqliteQuery -Connection $DBconn -Query "CREATE TABLE IF NOT EXISTS Change
 
 # Get the current date and time
 $now = Get-Date
+
+# Initialize email alerts
+$QueuedChangesEmail = 0
+$ChangesEmailBody = @'SimpleFIM changed files digest:
+******************************
+'@
+$QueuedErrorsEmail = 0
+$ErrorsEmailBody = @'SimpleFIM errors digest:
+******************************
+'@
 
 # Import and iterate through the list of directories to scan (all will be recursive)
 Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
@@ -152,11 +156,15 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                         # Log the change in the Changes table
                         $query = "INSERT INTO Changes (FilePath, ChangeTime, LastHash, CurrentHash) VALUES ('$filePath', '$now', '$lastHash', '$currentHash')"
                         Invoke-SqliteQuery -Connection $DBconn -Query $query
-
+                        
                         # Log the changed file details to SIEM and local filesystem
                         $changeDetails = $now.ToString("u") + " | Path: " + $filePath + " | Last: " + $lastHash + " | New: " + $currentHash
                         SendTo-SysLog "system" "warning" $changeDetails "SimpleFIM"
                         Add-Content -Path $changeLog -Value $changeDetails
+
+                        # Add the item to our email notification body and set the queued email flag
+                        $ChangesEmailBody = $ChangesEmailBody + $changeDetails + "`r`n"
+                        $QueuedChangesEmail = 1
 
                         # Update the LastModified and CurrentHash columns in the Hashes table
                         $query = "UPDATE Hashes SET LastModified = '$lastModified', CurrentHash = '$currentHash', LastHash = '$lastHash' WHERE FilePath = '$filePath'"
@@ -168,6 +176,10 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                     $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash."
                     if (-not(Test-Path -Path $errorLog -PathType Leaf)){SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"}
                     Add-Content -Path $errorLog -Value $errorDetails
+                    
+                    # Add the item to our email alert body and set the queued email flag
+                    $ErrorsEmailBody = $ErrorsEmailBody + $errorDetails + "`r`n"
+                    $QueuedErrorsEmail = 1
                     }
                 }
             else {
@@ -180,6 +192,10 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                     if($DBExists -eq 1){
                         $newFileDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> New file created."
                         SendTo-SysLog "system" "informational" $newFileDetails "SimpleFIM"
+                        
+                        # Add the item to our email notification body and set the queued email flag
+                        $ChangesEmailBody = $ChangesEmailBody + $newFileDetails + "`r`n"
+                        $QueuedChangesEmail = 1
                         }
                     }
                 else {
@@ -187,6 +203,10 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                     $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash."
                     if (-not(Test-Path -Path $errorLog -PathType Leaf)){SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"}
                     Add-Content -Path $errorLog -Value $errorDetails
+                    
+                    # Add the item to our email alert body and set the queued email flag
+                    $ErrorsEmailBody = $ErrorsEmailBody + $errorDetails + "`r`n"
+                    $QueuedErrorsEmail = 1
                     }
                 }
             } # End Get-Children and iterate through the list of monitored files and directories
@@ -197,6 +217,10 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
         $errorDetails = $now.ToString("u") + " | Path: " + $scanDir + " | --> File or folder does not exist on this system or is not readable by the batch account."
         SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"
         Add-Content -Path $errorLog -Value $errorDetails
+        
+        # Add the item to our email alert body and set the queued email flag
+        $ErrorsEmailBody = $ErrorsEmailBody + $errorDetails + "`r`n"
+        $QueuedErrorsEmail = 1
         } # End test for existence of specified file/folder to monitor (NOT FOUND)
     } # End Get-Content of ScanList.log
 
@@ -225,7 +249,11 @@ Get-ChildItem -File $FIMDirList | ForEach-Object {
             $changeDetails = $now.ToString("u") + " | Path: " + $filePath + " | Last: " + $lastHash + " | New: " + $currentHash
             SendTo-SysLog "system" "warning" $changeDetails "SimpleFIM"
             Add-Content -Path $changeLog -Value $changeDetails
-
+            
+            # Add the item to our email alert body and set the queued email flag
+            $ChangesEmailBody = $ChangesEmailBody + $changeDetails + "`r`n"
+            $QueuedChangesEmail = 1
+            
             # Update the LastModified and CurrentHash columns in the Hashes table
             $query = "UPDATE Hashes SET LastModified = '$lastModified', CurrentHash = '$currentHash', LastHash = '$lastHash' WHERE FilePath = '$filePath'"
             Invoke-SqliteQuery -Connection $DBconn -Query $query
@@ -239,6 +267,12 @@ Get-ChildItem -File $FIMDirList | ForEach-Object {
         }
 
     }
+
+ # Send the email message...
+ if (($SMTPServer -ne "smtp.hostname.here") -and ($QueuedChangesEmail -eq 1)) {
+  $EmailSubject = 'SimpleFIM Changed Files Digest FROM ' + $FIMHostname
+  Send-MailMessage -From $FromAddress -To $ToAddress -Subject $EmailSubject -Body $ChangesEmailBody -SmtpServer $SMTPServer -Port $SMTPPort
+  }
 
 # Close the database connection
 $DBconn.Close()
