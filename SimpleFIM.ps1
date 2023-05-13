@@ -1,7 +1,15 @@
 Import-Module PSSQLite
 
-# Specify our Syslog collector host
+# Specify your Syslog collector host.  If the default value remains, SimpleFIM will not attempt to send Syslog messages.
 $SyslogTarget = "syslog.hostname.here"
+
+# Specify your SMTP relay host.  If the default value remains, SimpleFIM will not attempt to send email messages.
+$SMTPServer = "smtp.hostname.here"
+$SMTPPort = 25
+
+# Specify the email from and to addresses.  One value only; if you need to send to multiple recipients, use a distribution group.
+$FromAddress = 'noreply@simplefim.nodomain'
+$ToAddress = 'security@simplefim.nodomain'
 
 # Define the path to the directory tree to be hashed
 $FIMDirList = "C:\Windows\ScanList.log"
@@ -24,6 +32,8 @@ function SendTo-SysLog
 {
 
     param ([String]$Facility, [String]$Severity, [String]$Content, [String]$Tag)
+
+$EmailSubject = 'SimpleFIM Alert (' + $Severity + ') FROM ' + FIMHostname
 
  switch -regex ($Facility)
      {
@@ -83,10 +93,14 @@ $msg = $pri + $header + $Tag + ": " + $Content
  # "Packet" is not "PRI + HEADER + MSG", and IP header = 20, UDP header = 8, hence:
  if ($bytearray.count -gt 996) { $bytearray = $bytearray[0..995] }
 
-# Send the message... 
+# Send the Syslog message... 
 if ($SyslogTarget -ne "syslog.hostname.here") {
  $UdpClient = New-Object System.Net.Sockets.UdpClient $SyslogTarget, 514
  $UdpClient.Send($bytearray, $bytearray.length) | out-null
+ }
+# Send the email message...
+if ($SMTPServer -ne "smtp.hostname.here") {
+ Send-MailMessage -From $FromAddress -To $ToAddress -Subject $EmailSubject -Body $msg -SmtpServer $SMTPServer -Port $SMTPPort
  }
 } # End SendTo-SysLog
 
