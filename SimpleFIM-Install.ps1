@@ -136,6 +136,8 @@ icacls.exe "C:\FIM" /grant $GrantRights
 
 Copy-Item ".\SimpleFIM.ps1" -Destination "C:\Program Files\FIM" -Force
 Copy-Item ".\CycleErrorLogs.cmd" -Destination "C:\Program Files\FIM" -Force
+if (Test-Path "C:\Program Files\FIM\SimpleFIM-Config.xml" -PathType Leaf) {Rename-Item -Path "C:\Program Files\FIM\SimpleFIM-Config.xml" -NewName "SimpleFIM-Config.backup"}
+Copy-Item ".\SimpleFIM-Config.xml" -Destination "C:\Program Files\FIM" -Force
 Copy-Item ".\ScanList.log" -Destination "C:\Windows" -Force
 
 Write-Host "Filesystem setup completed." -ForegroundColor DarkCyan
