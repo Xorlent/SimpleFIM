@@ -201,6 +201,8 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                 else {
                     # We could not get the hash for the file on disk
                     $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash.  Ensure the fim batch account has file/folder read and list permissions."
+                    
+                    # Send just one Syslog error per day to prevent sending piles of these alerts on each run.  One alert should clue the admin in that there was a setup issue or permissions have changed.
                     if (-not(Test-Path -Path $errorLog -PathType Leaf)){SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"}
                     Add-Content -Path $errorLog -Value $errorDetails
                     
