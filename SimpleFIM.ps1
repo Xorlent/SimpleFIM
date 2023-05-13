@@ -1,23 +1,18 @@
 Import-Module PSSQLite
+$ConfigFile = 'C:\Program Files\FIM\SimpleFIM-Config.xml'
+$ConfigParams = [xml](get-content $ConfigFile)
 
-# Specify your Syslog collector host.  If the default value remains, SimpleFIM will not attempt to send Syslog messages.
-$SyslogTarget = "syslog.hostname.here"
-
-# Specify your SMTP relay host.  If the default value remains, SimpleFIM will not attempt to send email messages.
-$SMTPServer = "smtp.hostname.here"
-$SMTPPort = 25
-
-# Specify the email from and to addresses.  One value only; if you need to send to multiple recipients, use a distribution group.
-$FromAddress = 'noreply@simplefim.nodomain'
-$ToAddress = 'security@simplefim.nodomain'
-
-# Define the path to the directory tree to be hashed
-$FIMDirList = "C:\Windows\ScanList.log"
-
-# Define the path to the database file
-$databasePath = "C:\FIM\Hashes.sqdb"
-$changeLog = "C:\FIM\Calchashes.log"
-$errorLog = "C:\FIM\CalchashesErr.log"
+# Initialize configuration variables from config xml file
+$SyslogTarget = $ConfigParams.configuration.syslog.fqdn.value
+$SyslogPort = $ConfigParams.configuration.syslog.port.value
+$SMTPServer = $ConfigParams.configuration.smtp.fqdn.value
+$SMTPPort = $ConfigParams.configuration.smtp.port.value
+$FromAddress = $ConfigParams.configuration.smtp.fromEmail.value
+$ToAddress = $ConfigParams.configuration.smtp.toEmail.value
+$FIMDirList = $ConfigParams.configuration.filepaths.monitoredList.value
+$databasePath = $ConfigParams.configuration.filepaths.databasePath.value
+$changeLog = $ConfigParams.configuration.filepaths.changeLog.value
+$errorLog = $ConfigParams.configuration.filepaths.errorLog.value
 
 # Flag to see if this is a first run or not
 $DBExists = 0
@@ -93,7 +88,7 @@ if ($bytearray.count -gt 996) { $bytearray = $bytearray[0..995] }
  
 # Send the Syslog message...
 if ($SyslogTarget -ne "syslog.hostname.here") {
- $UdpClient = New-Object System.Net.Sockets.UdpClient $SyslogTarget, 514
+ $UdpClient = New-Object System.Net.Sockets.UdpClient $SyslogTarget, $SyslogPort
  $UdpClient.Send($bytearray, $bytearray.length) | out-null
  }
 } # End SendTo-SysLog
