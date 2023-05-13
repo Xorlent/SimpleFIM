@@ -9,10 +9,12 @@ Flexible PowerShell-based file integrity monitor with Syslog and SMTP alerting f
 5. Internet access is needed if you want the installer to add the PSSQLite module.  Otherwise, you can install this module manually.
 
 ## Installation
-1. Copy all files to a single directory.
-2. Launch PowerShell as an administrator.
-3. Run SimpleFIM-Install.ps1
-4. Follow the directions at the end of the install process to complete the setup.
+1. Download the latest release .ZIP file.
+2. Right-click the downloaded file, click Properties, and click "Unblock"
+3. Extract the .ZIP to a single directory.
+5. Launch PowerShell as an administrator, navigate to the directory with the unzipped files.
+6. Type .\SimpleFIM-Install.ps1 to run the installer.
+7. Follow the directions at the end of the process to complete SimpleFIM setup.
 
 ## Operation
 ### Two files control the execution of the FIM script
