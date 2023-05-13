@@ -43,3 +43,7 @@ This is the SQLite database that holds all the hash information for files and fo
 This file is generated/populated any time a monitored file changes and will be a human-readable running log of any changes over time.  Changes are also sent to your configured Syslog destination.  
 #### "C:\FIM\CalchashesErr.log"
 This file is generated/populated any time a runtime error occurs (typically this would be file read errors or incorrectly specified file/folders in ScanList.log).  Errors are also sent to your configured Syslog destination.  
+## Troubleshooting
+### I need to edit a scheduled task but do not know the password for the "fim" user account
+    - Open Computer Management and reset the password for the fim user.  Always use a complex password with a minimum length of 15 characters.  
+    Once the password has been changed, edit both SimpleFIM tasks, "Simple FIM Run Process" and "Simple FIM Cycle Error Log" and specify this new password when saving the task.
