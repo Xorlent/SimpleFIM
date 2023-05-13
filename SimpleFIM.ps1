@@ -22,7 +22,7 @@ $errorLog = "C:\FIM\CalchashesErr.log"
 # Flag to see if this is a first run or not
 $DBExists = 0
 
-# This computer's NETBIOS name, used for Syslog
+# This computer's NETBIOS name, used for Syslog and email messages
 $FIMHostname = $env:COMPUTERNAME
 
 # Syslog Function ---------------------
