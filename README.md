@@ -46,4 +46,4 @@ This file is generated/populated any time a runtime error occurs (typically this
 ## Troubleshooting
 ### I need to edit a scheduled task but do not know the password for the "fim" user account
 1. Open Computer Management and reset the password for the fim user.  Always use a complex password with a minimum length of 15 characters.
-2. Once the password has been changed, edit both SimpleFIM tasks, "Simple FIM Run Process" and "Simple FIM Cycle Error Log" and specify this new password when saving the task.
+2. Once the password has been changed, open Task Scheduler and edit both SimpleFIM tasks, "Simple FIM Run Process" and "Simple FIM Cycle Error Log," specifying this new password when saving the task.
