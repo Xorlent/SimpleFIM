@@ -118,11 +118,13 @@ $QueuedChangesEmail = 0
 $ChangesEmailBody = @'
 SimpleFIM new and changed files digest:
 ******************************
+
 '@
 $QueuedErrorsEmail = 0
 $ErrorsEmailBody = @'
 SimpleFIM errors digest:
 ******************************
+
 '@
 
 # Import and iterate through the list of directories to scan (all will be recursive)
