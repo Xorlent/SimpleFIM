@@ -115,7 +115,7 @@ $now = Get-Date
 
 # Initialize email alerts
 $QueuedChangesEmail = 0
-$ChangesEmailBody = @'SimpleFIM changed files digest:
+$ChangesEmailBody = @'SimpleFIM new and changed files digest:
 ******************************
 '@
 $QueuedErrorsEmail = 0
@@ -268,10 +268,15 @@ Get-ChildItem -File $FIMDirList | ForEach-Object {
 
     }
 
- # Send the email message...
+ # Send the email messages...
  if (($SMTPServer -ne "smtp.hostname.here") -and ($QueuedChangesEmail -eq 1)) {
-  $EmailSubject = 'SimpleFIM Changed Files Digest FROM ' + $FIMHostname
+  $EmailSubject = 'SimpleFIM New and Changed Files Digest FROM ' + $FIMHostname
   Send-MailMessage -From $FromAddress -To $ToAddress -Subject $EmailSubject -Body $ChangesEmailBody -SmtpServer $SMTPServer -Port $SMTPPort
+  }
+
+ if (($SMTPServer -ne "smtp.hostname.here") -and ($QueuedErrorsEmail -eq 1)) {
+  $EmailSubject = 'SimpleFIM Errors Digest FROM ' + $FIMHostname
+  Send-MailMessage -From $FromAddress -To $ToAddress -Subject $EmailSubject -Body $ErrorsEmailBody -SmtpServer $SMTPServer -Port $SMTPPort
   }
 
 # Close the database connection
