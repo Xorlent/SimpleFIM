@@ -163,6 +163,6 @@ Write-Host "++++++++++++++++"
 
 Write-Host 'Next steps:'
 Write-Host '  1. Edit C:\Windows\ScanList.log to include the desired monitored files and directories.'
-Write-Host '  2. Edit C:\Program Files\FIM\SimpleFIM.ps1 and update $SyslogTarget and/or $SMTPServer, $FromAddress, $ToAddress.'
+Write-Host '  2. Edit C:\Program Files\FIM\SimpleFIM-Config.xml to point SimpleFIM to your Syslog and/or SMTP server.'
 Write-Host '  3. For each monitored file or directory, ensure the "fim" batch account has read rights.'
 Write-Host '  4. Enable the "Simple FIM Cycle Error Log" and "Simple FIM Run Process" scheduled tasks.'
