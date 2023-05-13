@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<configuration>
+  <syslog>
+    <!-- Update/edit the values below according to your specific Syslog server settings.  No support for Syslog TCP. -->
+    <!-- If the default fqdn value remains, SimpleFIM will not attempt to send Syslog messages. -->
+    <fqdn key="fqdn" value="syslog.hostname.here"/>
+    <port key="port" value="514"/>
+  </syslog>
+  <smtp>
+    <!-- Update/edit the values below according to your specific SMTP gateway settings.  No support for authentication at this time. -->
+    <!-- If the default fqdn value remains, SimpleFIM will not attempt to send email messages. -->
+    <fqdn key="fqdn" value="smtp.hostname.here"/>
+    <port key="port" value="25"/>
+    <!-- Specify the email from and to addresses.  One value only; if you need to send to multiple recipients, use a distribution group. -->
+    <fromEmail key="fromEmail" value="noreply@simplefim.nodomain"/>
+    <toEmail key="toEmail" value="security@simplefim.nodomain"/>
+  </smtp>
+  <filepaths>
+    <!-- The default values for each of the items below are the recommended defaults and compatible with the SimpleFIM installer -->
+    <monitoredList key="monitoredList" value="C:\Windows\ScanList.log"/>
+    <databasePath key="databasePath" value="C:\FIM\Hashes.sqdb"/>
+    <changeLog key="changeLog" value="C:\FIM\Calchashes.log"/>
+    <errorLog key="errorLog" value="C:\FIM\CalchashesErr.log"/>
+  </filepaths>
+</configuration>
