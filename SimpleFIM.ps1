@@ -115,11 +115,13 @@ $now = Get-Date
 
 # Initialize email alerts
 $QueuedChangesEmail = 0
-$ChangesEmailBody = @'SimpleFIM new and changed files digest:
+$ChangesEmailBody = @'
+SimpleFIM new and changed files digest:
 ******************************
 '@
 $QueuedErrorsEmail = 0
-$ErrorsEmailBody = @'SimpleFIM errors digest:
+$ErrorsEmailBody = @'
+SimpleFIM errors digest:
 ******************************
 '@
 
