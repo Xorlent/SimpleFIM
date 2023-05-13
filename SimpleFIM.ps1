@@ -173,7 +173,7 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                     }
                 else {
                     # We could not get the hash for the file on disk
-                    $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash."
+                    $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash.  Ensure the fim batch account has file/folder read and list permissions."
                     if (-not(Test-Path -Path $errorLog -PathType Leaf)){SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"}
                     Add-Content -Path $errorLog -Value $errorDetails
                     
@@ -200,7 +200,7 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                     }
                 else {
                     # We could not get the hash for the file on disk
-                    $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash."
+                    $errorDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> Could not get hash.  Ensure the fim batch account has file/folder read and list permissions."
                     if (-not(Test-Path -Path $errorLog -PathType Leaf)){SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"}
                     Add-Content -Path $errorLog -Value $errorDetails
                     
@@ -214,7 +214,7 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
         } # End test for existence of specified file/folder to monitor (FOUND)
     else {
         # File or folder to scan does not exist!
-        $errorDetails = $now.ToString("u") + " | Path: " + $scanDir + " | --> File or folder does not exist on this system or is not readable by the batch account."
+        $errorDetails = $now.ToString("u") + " | Path: " + $scanDir + " | --> File or folder does not exist on this system or is not readable by the fim batch account."
         SendTo-SysLog "system" "error" $errorDetails "SimpleFIM"
         Add-Content -Path $errorLog -Value $errorDetails
         
@@ -268,7 +268,7 @@ Get-ChildItem -File $FIMDirList | ForEach-Object {
 
     }
 
- # Send the email messages...
+ # Send any queued email messages...
  if (($SMTPServer -ne "smtp.hostname.here") -and ($QueuedChangesEmail -eq 1)) {
   $EmailSubject = 'SimpleFIM New and Changed Files Digest FROM ' + $FIMHostname
   Send-MailMessage -From $FromAddress -To $ToAddress -Subject $EmailSubject -Body $ChangesEmailBody -SmtpServer $SMTPServer -Port $SMTPPort
