@@ -5,7 +5,8 @@ Flexible PowerShell-based file integrity monitor with Syslog and SMTP alerting f
 SimpleFIM is designed to allow anyone to implement no-cost file integrity monitoring on critical Windows assets in a matter of minutes:
 1. Download
 2. Run installer
-3. Set Syslog and/or SMTP details
+3. Set Syslog and/or SMTP details  
+   You can even save yourself some time by copying your SimpleFIM configuration file to all machines once the installs are complete
 
 ## Prerequisites
 1. A Windows machine with PowerShell
