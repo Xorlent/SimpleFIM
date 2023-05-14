@@ -6,7 +6,7 @@ SimpleFIM is designed to allow anyone to implement no-cost file integrity monito
 1. Download
 2. Run installer
 3. Set Syslog and/or SMTP details  
-   _You can even save yourself some time by copying your SimpleFIM configuration file to all machines once the installs are complete_
+   Tip: _You can even save yourself some time by copying your SimpleFIM configuration file to all machines once the installs are complete_
 
 ## Prerequisites
 1. A Windows machine with PowerShell
