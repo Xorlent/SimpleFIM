@@ -146,8 +146,8 @@ Write-Host "Starting Task Scheduler setup." -ForegroundColor DarkCyan
 
 #  Create scheduled tasks
 
-Register-ScheduledTask -xml (Get-Content '.\CycleErrLogs.xml' | Out-String) -TaskName "Simple FIM Cycle Error Log" -User $ntprincipal -Password $NewPW -Force
-Register-ScheduledTask -xml (Get-Content '.\RunSimpleFIM.xml' | Out-String) -TaskName "Simple FIM Run Process" -User $ntprincipal -Password $NewPW -Force
+Register-ScheduledTask -xml (Get-Content '.\Task-CycleErrorLogs.xml' | Out-String) -TaskName "Simple FIM Cycle Error Log" -User $ntprincipal -Password $NewPW -Force
+Register-ScheduledTask -xml (Get-Content '.\Task-RunSimpleFIM.xml' | Out-String) -TaskName "Simple FIM Run Process" -User $ntprincipal -Password $NewPW -Force
 #  End Create scheduled tasks
 
 Write-Host "Task Scheduler setup completed." -ForegroundColor DarkCyan
