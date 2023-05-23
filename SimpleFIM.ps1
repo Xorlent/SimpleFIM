@@ -191,7 +191,7 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                    if($DBExists -eq 1){
                        $newFileDetails = $now.ToString("u") + " | Path: " + $filePath + " | --> New file created."
                        SendTo-SysLog "system" "informational" $newFileDetails "SimpleFIM"
-                       
+                       Add-Content -Path $changeLog -Value $newFileDetails
                        # Add the item to our email notification body and set the queued email flag
                        $ChangesEmailBody = $ChangesEmailBody + $newFileDetails + "`r`n"
                        $QueuedChangesEmail = 1
