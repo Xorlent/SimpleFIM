@@ -1,6 +1,7 @@
 Import-Module PSSQLite
 $ConfigFile = 'C:\Program Files\FIM\SimpleFIM-Config.xml'
 $ConfigParams = [xml](get-content $ConfigFile)
+$VirusTotalURL = 'https://www.virustotal.com/gui/file/'
 
 # Initialize configuration variables from config xml file
 $SyslogTarget = $ConfigParams.configuration.syslog.fqdn.value
@@ -162,7 +163,7 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                        Add-Content -Path $changeLog -Value $changeDetails
  
                        # Add the item to our email notification body and set the queued email flag
-                       $ChangesEmailBody = $ChangesEmailBody + $changeDetails + "`r`n"
+                       $ChangesEmailBody = $ChangesEmailBody + $changeDetails + " | " + $VirusTotalURL + $currentHash + "`r`n"
                        $QueuedChangesEmail = 1
  
                        # Update the LastModified and CurrentHash columns in the Hashes table
@@ -193,7 +194,7 @@ Get-Content $FIMDirList | Where-Object { $_ -notmatch '^#' } | ForEach-Object {
                        SendTo-SysLog "system" "informational" $newFileDetails "SimpleFIM"
                        Add-Content -Path $changeLog -Value $newFileDetails
                        # Add the item to our email notification body and set the queued email flag
-                       $ChangesEmailBody = $ChangesEmailBody + $newFileDetails + "`r`n"
+                       $ChangesEmailBody = $ChangesEmailBody + $newFileDetails + " | " + $VirusTotalURL + $currentHash + "`r`n"
                        $QueuedChangesEmail = 1
                        }
                    }
