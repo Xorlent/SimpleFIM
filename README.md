@@ -13,7 +13,7 @@ SimpleFIM is designed to allow anyone to implement no-cost file integrity monito
 2. PSSQLite, which can be added via the PowerShell Install-Module command (Install-Module PSSQLite) or via Github at https://github.com/RamblingCookieMonster/PSSQLite.  If you run the installer, it will attempt to install the module for you.
 3. (optional) A Syslog collector (Disabled by default, but it is recommended you specify one)
 4. (optional) A SMTP relay host (Disabled by default, but if you do not have a Syslog collector, use this)
-   - The email new/changed file digest now includes a link to VirusTotal for quick hash lookups  
+   - The email new/changed file digest now includes a link to Malware Bazaar/Abuse.ch for quick hash lookups  
 6. Internet access is needed if you want the installer to add the PSSQLite module.  Otherwise, you can install this module manually.
 
 ## Installation
