@@ -1,5 +1,5 @@
 # SimpleFIM
-Flexible PowerShell-based file integrity monitor with Syslog and SMTP alerting functionality.  When we began doing research and getting demos of various commercial products, they were either not configurable so you could not monitor specific application folders, or they were overly complicated and expensive for such a simple task.  SimpleFIM has been tested on Windows 10, Server 2016, Server 2019 and is designed to run as an unprivileged local user with only read/list access needed to the files and folders to monitor.  
+Flexible PowerShell-based file integrity monitor with Syslog and SMTP alerting functionality.  When we began doing research and getting demos of various commercial products, they were either not configurable so you could not monitor specific application folders, or they were overly complicated and expensive for such a simple task.  PCI DSS and some cyber insurers now require this.  SimpleFIM has been tested on Windows 10, Server 2016, Server 2019 and is designed to run as an unprivileged local user with only read/list access needed to the files and folders to monitor.  
   
 **TL;DR**  
 SimpleFIM is designed to allow anyone to implement no-cost file integrity monitoring on critical Windows assets in a matter of minutes:
