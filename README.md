@@ -30,7 +30,7 @@ SimpleFIM is designed to allow anyone to implement no-cost file integrity monito
 Edit this file to specify your Syslog and SMTP server details.  The installer will rename any existing config file to SimpleFIM-Config.backup.
 ### Two files control the execution of the FIM script
 #### SimpleFIM.ps1
-This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule if you want it to run more frequently than once an hour.  4 CPU cores are recommended for any machine running this process.  Real-world testing shows *first-run performance of 70,000 files per hour* with minimal CPU usage and *subsequent run performance of 25,000 files per minute* with high single-core CPU usage.  
+This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule if you want it to run more frequently than once an hour.  4 CPU cores are recommended for any machine running this process.  Real-world testing shows **first-run performance of 70,000 files per hour** with minimal CPU usage and **subsequent run performance of 25,000 files per minute** with high single-core CPU usage.  
 #### CycleErrorLogs.cmd
 This is configured to execute once per day by default.  The script simply renames any error log to CalchashesErr.MMDDYY  
 The .ps1 and .cmd file should both be placed in C:\Program Files\FIM.  Ensure only Administrators have access to modify the contents of this folder.  
