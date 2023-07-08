@@ -1,5 +1,5 @@
 # SimpleFIM
-Flexible PowerShell-based file integrity monitor with Syslog and SMTP alerting functionality.  When we began our research and getting demos of various commercial products, they were either not configurable so you could not monitor specific application folders, or they were overly complicated and expensive for such a simple task.  PCI DSS and some cyber insurers now require this.  SimpleFIM has been tested on Windows 10, Server 2016, Server 2019 and is designed to run as an unprivileged local user with only read/list access needed to the files and folders to monitor.  
+Flexible PowerShell-based file integrity monitor with Syslog and email alerting functionality.  When we began our research and getting demos of various commercial products, they were either not configurable so you could not monitor specific application folders, or they were overly complicated and expensive for such a simple task.  PCI DSS and some cyber insurers now require this.  SimpleFIM has been tested on Windows 10, Server 2016, Server 2019 and is designed to run as an unprivileged local user with only read/list access needed to the files and folders to monitor.  
   
 **TL;DR**  
 SimpleFIM is designed to allow anyone to implement no-cost file integrity monitoring on critical Windows assets in a matter of minutes:
@@ -30,7 +30,7 @@ SimpleFIM is designed to allow anyone to implement no-cost file integrity monito
 Edit this file to specify your Syslog and SMTP server details.  The installer will rename any existing config file to SimpleFIM-Config.backup.
 ### Two files control the execution of the FIM script
 #### SimpleFIM.ps1
-This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule if you want it to run more frequently than once an hour.  4 CPU cores are recommended for any machine running this process.  Real-world testing shows _first-run performance of 70,000 files per hour_ with minimal CPU usage and _subsequent run performance of 25,000 files per minute_ with high single-core CPU usage.  
+This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule if you want it to run more frequently than once an hour.  4 CPU cores are recommended for any machine running this process.  Real-world testing shows *first-run performance of 70,000 files per hour* with minimal CPU usage and *subsequent run performance of 25,000 files per minute* with high single-core CPU usage.  
 #### CycleErrorLogs.cmd
 This is configured to execute once per day by default.  The script simply renames any error log to CalchashesErr.MMDDYY  
 The .ps1 and .cmd file should both be placed in C:\Program Files\FIM.  Ensure only Administrators have access to modify the contents of this folder.  
@@ -48,9 +48,9 @@ By default, the installer creates a runtime folder C:\FIM, with write permission
 #### "C:\FIM\Hashes.sqdb"
 This is the SQLite database that holds all the hash information for files and folders being monitored.  The only user that needs access to this file is the FIM batch account.  
 #### "C:\FIM\Calchashes.log"
-This file is generated/populated any time a monitored file changes and will be a human-readable running log of any changes over time.  Changes are also sent to your configured Syslog destination.  
+This file is generated/populated any time a monitored file changes and will be a human-readable running log of any changes over time.  Changes are also sent to your configured Syslog and/or email destination.  
 #### "C:\FIM\CalchashesErr.log"
-This file is generated/populated any time a runtime error occurs (typically this would be file read errors or incorrectly specified file/folders in ScanList.log).  Errors are also sent to your configured Syslog destination.  
+This file is generated/populated any time a runtime error occurs (typically this would be file read errors or incorrectly specified file/folders in ScanList.log).  Errors are also sent to your configured Syslog and/or email destination.  
 ## Troubleshooting
 ### I need to edit a scheduled task but do not know the password for the "fim" user account
 1. Open Computer Management and reset the password for the fim user.  Always use a complex password with a minimum length of 15 characters.
