@@ -30,14 +30,14 @@ SimpleFIM is designed to allow anyone to implement no-cost file integrity monito
 Edit this file to specify your Syslog and SMTP server details.  The installer will rename any existing config file to SimpleFIM-Config.backup.
 ### Two files control the execution of the FIM script
 #### SimpleFIM.ps1
-This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule.  4 CPU cores are highly recommended for any machine running this process.  Real-world testing shows first-run performance of 70,000 files per hour with minimal CPU usage and subsequent run performance of 25,000 files per minute with high single-core CPU usage.  
+This is configured to execute once per hour by default.  Depending on the number of folders to monitor, the process can take some time, so be sure to profile its performance prior to setting the final schedule if you want it to run more frequently than once an hour.  4 CPU cores are recommended for any machine running this process.  Real-world testing shows _first-run performance of 70,000 files per hour_ with minimal CPU usage and _subsequent run performance of 25,000 files per minute_ with high single-core CPU usage.  
 #### CycleErrorLogs.cmd
 This is configured to execute once per day by default.  The script simply renames any error log to CalchashesErr.MMDDYY  
 The .ps1 and .cmd file should both be placed in C:\Program Files\FIM.  Ensure only Administrators have access to modify the contents of this folder.  
 ### User Account
-A local user named, “fim” is created by the installer with a unique, strong password.  The user account should be configured with no password expiration and should not be added to any additional groups.  
+A local user named, “fim” is created by the installer with a unique, strong password.  The user account is configured with no password expiration and is not added to any privileged security groups.  
 ### Group Policy Settings
-This setting is handled by the installer.  Open mmc.exe and load the Local Group Policy.  The new “fim” user needs to be added to the, “Log on as a batch job” right.  This can be found in Computer Configuration->Windows Settings->Local Policies->User Rights Assignments  
+This setting is handled by the installer.  Open mmc.exe and load the Local Group Policy.  The new “fim” user is added to the, “Log on as a batch job” right.  This can be found in Computer Configuration->Windows Settings->Local Policies->User Rights Assignments  
 ### Files and Folders to monitor
 "C:\Windows\ScanList.log"
 This is the file containing the list of files and folders that should be monitored by the FIM script.  The FIM batch user needs read, list access to every location you specify.  Each file or folder to scan should be on its own line.  Use a “|” to terminate each entry (REQUIRED).  Single line comments following each entry are permitted.  
