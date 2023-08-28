@@ -37,7 +37,7 @@ The .ps1 and .cmd file should both be placed in C:\Program Files\FIM.  Ensure on
 ### User Account
 A local user named, “fim” is created by the installer with a unique, strong password.  The user account is configured with no password expiration and is not added to any privileged security groups.  
 ### Group Policy Settings
-This setting is handled by the installer.  Open mmc.exe and load the Local Group Policy.  The new “fim” user is added to the, “Log on as a batch job” right.  This can be found in Computer Configuration->Windows Settings->Local Policies->User Rights Assignments  
+This setting is handled by the installer.  Open mmc.exe and load the Local Group Policy Snap-In.  The new “fim” user is added to the, “Log on as a batch job” right.  This can be found in Computer Configuration->Windows Settings->Local Policies->User Rights Assignments  
 ### Files and Folders to monitor
 "C:\Windows\ScanList.log"
 This is the file containing the list of files and folders that should be monitored by the FIM script.  The FIM batch user needs read, list access to every location you specify.  Each file or folder to scan should be on its own line.  Use a “|” to terminate each entry (REQUIRED).  Single line comments following each entry are permitted.  
